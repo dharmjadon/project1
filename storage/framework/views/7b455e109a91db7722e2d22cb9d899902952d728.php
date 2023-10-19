@@ -1,0 +1,732 @@
+
+<?php $__env->startSection('css'); ?>
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo e(asset('app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css')); ?>">
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo e(asset('app-assets/vendors/css/tables/datatable/responsive.bootstrap4.min.css')); ?>">
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo e(asset('app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css')); ?>">
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo e(asset('app-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')); ?>">
+
+    <style>
+        .overlay {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            background: rgba(255, 255, 255, 0.8) url("<?php echo e(asset('assets/loader/loader_report.gif')); ?>") center no-repeat;
+        }
+
+        /* Turn off scrollbar when body element has the loading class */
+        body.loading {
+            overflow: hidden;
+        }
+
+        /* Make spinner image visible when body element has the loading class */
+        body.loading .overlay {
+            display: block;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div class="card card-outline card-pink">
+        <div class="card-body">
+            <a class="btn btn-primary mb-2" href="<?php echo e(route('admin.main-category.create')); ?>">Add Main Category <i
+                    data-feather="plus"></i></a>
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="venue-tab" data-toggle="tab" href="#venue" aria-controls="venue"
+                       role="tab" aria-selected="true">Venue (<?php echo e($venues->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" aria-controls="event" role="tab"
+                       aria-selected="false">Event (<?php echo e($events->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="buy_sell-tab" data-toggle="tab" href="#buy_sell" aria-controls="buy_sell"
+                       role="tab" aria-selected="false">Buy & Sell (<?php echo e($buys_sells->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="directory-tab" data-toggle="tab" href="#directory" aria-controls="directory"
+                       role="tab" aria-selected="false">Directory (<?php echo e($directories->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="concierge-tab" data-toggle="tab" href="#concierge" aria-controls="concierge"
+                       role="tab" aria-selected="false">Concierge (<?php echo e($conciergs->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="influencer-tab" data-toggle="tab" href="#influencer"
+                       aria-controls="influencer" role="tab" aria-selected="false">Influencer (<?php echo e($influencers->count()); ?>
+
+                        )</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="job-tab" data-toggle="tab" href="#job" aria-controls="job" role="tab"
+                       aria-selected="false">Job (<?php echo e($jobs->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" aria-controls="ticket"
+                       role="tab" aria-selected="false">Ticket (<?php echo e($tickets->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="spaces-tab" data-toggle="tab" href="#spaces" aria-controls="spaces"
+                       role="tab" aria-selected="false">Property (<?php echo e($spaces->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="attractions-tab" data-toggle="tab" href="#attractions"
+                       aria-controls="attractions" role="tab" aria-selected="false">Attractions
+                        (<?php echo e($attractions->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="book-table-tab" data-toggle="tab" href="#book_artist"
+                       aria-controls="book_artist" role="tab" aria-selected="false">Book An Artist
+                        (<?php echo e($book_artists->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="give-away-tab" data-toggle="tab" href="#give_away"
+                       aria-controls="book_artist" role="tab" aria-selected="false">Give way (<?php echo e($give_away->count()); ?>
+
+                        )</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="motors-tab" data-toggle="tab" href="#motors" aria-controls="book_artist"
+                       role="tab" aria-selected="false">Motors (<?php echo e($motors->count()); ?>)</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="education-tab" data-toggle="tab" href="#education" aria-controls="education"
+                       role="tab" aria-selected="false">Education (<?php echo e($education->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="its-tab" data-toggle="tab" href="#it" aria-controls="book_artist"
+                       role="tab" aria-selected="false">ITs (<?php echo e($it->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="crypto-tab" data-toggle="tab" href="#crypto" aria-controls="book_artist"
+                       role="tab" aria-selected="false">Crypto (<?php echo e($crypto->count()); ?>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="talent-tab" data-toggle="tab" href="#talent" aria-controls="book_artist"
+                       role="tab" aria-selected="false">Talent (<?php echo e($talent->count()); ?>)</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="venue" aria-labelledby="venue-tab" role="tabpanel">
+                    <table class="table" id="datatable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php $sl_no = 1; ?>
+                        <?php $__currentLoopData = $venues; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <tr>
+                                <td><?php echo e($sl_no); ?></td>
+                                <td><?php echo e($data->name); ?></td>
+                                <td><?php echo e($data->majorCategory->name); ?></td>
+                                <td><img src="<?php echo e(otherImage($data->icon)); ?>" width="30"></td>
+                                <td>
+                                    <a class="btn btn-sm btn-success"
+                                       href="<?php echo e(route('admin.main-category.edit', $data->id)); ?>">
+                                        <i data-feather='pen-tool'></i>
+                                    </a>
+                                    <a data-id="<?php echo e($data->id); ?>" data-target="#danger" data-toggle="modal"
+                                       type="button" href="javascript:void(0)"
+                                       class="btn btn-sm btn-danger modal-btn">
+                                        <i data-feather='trash-2'></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <?php $sl_no++; ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane active" id="event" aria-labelledby="event-tab" role="tabpanel">
+                    <table class="table" id="datatable1">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                      
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane" id="buy_sell" aria-labelledby="buy_sell-tab" role="tabpanel">
+                    <table class="table" id="datatable2" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane" id="directory" aria-labelledby="directory-tab" role="tabpanel">
+                    <table class="table" id="datatable3" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane" id="concierge" aria-labelledby="concierge-tab" role="tabpanel">
+                    <table class="table" id="datatable4" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane" id="influencer" aria-labelledby="influencer-tab" role="tabpanel">
+                    <table class="table" id="datatable5" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane" id="job" aria-labelledby="job-tab" role="tabpanel">
+                    <table class="table" id="datatable6" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane" id="ticket" aria-labelledby="ticket-tab" role="tabpanel">
+                    <table class="table" id="datatable7" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="spaces" aria-labelledby="spaces-tab" role="tabpanel">
+                    <table class="table" id="datatable8" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="attractions" aria-labelledby="attractions-tab" role="tabpanel">
+                    <table class="table" id="datatable9" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="book_artist" aria-labelledby="book-table-tab" role="tabpanel">
+                    <table class="table" id="datatable10" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="give_away" aria-labelledby="give-away-tab" role="tabpanel">
+                    <table class="table" id="datatable11" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="motors" aria-labelledby="motors-tab" role="tabpanel">
+                    <table class="table" id="datatable12" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="education" aria-labelledby="education-tab" role="tabpanel">
+                    <table class="table" id="datatable14" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="it" aria-labelledby="its-tab" role="tabpanel">
+                    <table class="table" id="datatable15" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="crypto" aria-labelledby="crypto-tab" role="tabpanel">
+                    <table class="table" id="datatable16" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="talent" aria-labelledby="talent-tab" role="tabpanel">
+                    <table class="table" id="datatable17" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Major Category</th>
+                            <th>Icon</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal-danger text-left" id="danger" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel120" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel120">Danger Modal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are You sure you want to delete?
+                </div>
+                <div class="modal-footer">
+                    <form method="post" action="<?php echo e(route('admin.main-category.delete')); ?>">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" name="id">
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="overlay"></div>
+    
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+    <script src="<?php echo e(asset('app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('app-assets/vendors/js/tables/datatable/responsive.bootstrap4.js')); ?>"></script>
+    <script src="<?php echo e(asset('app-assets/vendors/js/tables/datatable/datatables.buttons.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('app-assets/vendors/js/tables/datatable/jszip.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('app-assets/vendors/js/tables/datatable/pdfmake.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('app-assets/vendors/js/tables/datatable/vfs_fonts.js')); ?>"></script>
+    <script src="<?php echo e(asset('app-assets/vendors/js/tables/datatable/buttons.html5.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('app-assets/vendors/js/tables/datatable/buttons.print.min.js')); ?>"></script>
+
+
+    <script>
+        function ajax_render_table(table_nam, module_name) {
+            var token = $("input[name='_token']").val();
+            $.ajax({
+                url: "<?php echo e(route('admin.main-category-ajax')); ?>",
+                method: 'GET',
+                data: {
+                    module_name: module_name
+                },
+                success: function (response) {
+                    // $("#datatable").tbody.empty();
+                    var table = $('#' + table_nam).DataTable();
+                    table.destroy();
+                    var table_name_now = '' + table_nam + ' tbody';
+
+                    $('#' + table_name_now).empty();
+                    $('#' + table_name_now).append(response.html);
+
+                    feather.replace();
+
+                    var table = $('#' + table_nam).DataTable({
+                        responsive: true,
+                        dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                        buttons: [{
+                            extend: 'collection',
+                            className: 'btn btn-outline-secondary dropdown-toggle',
+                            text: feather.icons['share'].toSvg({
+                                class: 'font-small-4 mr-50'
+                            }) + 'Export',
+                            buttons: [{
+                                extend: 'csv',
+                                text: feather.icons['file-text'].toSvg({
+                                    class: 'font-small-4 mr-50'
+                                }) + 'Csv',
+                                className: 'dropdown-item',
+                                exportOptions: {
+                                    modifier: {
+                                        page: 'all',
+                                    }
+                                }
+                            },
+                                {
+                                    extend: 'print',
+                                    text: feather.icons['printer'].toSvg({
+                                        class: 'font-small-4 mr-50'
+                                    }) + 'Print',
+                                    className: 'dropdown-item',
+                                    exportOptions: {
+                                        columns: [0, 1, 2, 3, 4, 5]
+                                    }
+                                },
+                                {
+                                    extend: 'excel',
+                                    text: feather.icons['file'].toSvg({
+                                        class: 'font-small-4 mr-50'
+                                    }) + 'Excel',
+                                    className: 'dropdown-item',
+                                    exportOptions: {
+                                        columns: [0, 1, 2, 3, 4, 5]
+                                    }
+                                },
+                                {
+                                    extend: 'copy',
+                                    text: feather.icons['copy'].toSvg({
+                                        class: 'font-small-4 mr-50'
+                                    }) + 'Copy',
+                                    className: 'dropdown-item',
+                                    exportOptions: {
+                                        columns: [0, 1, 2, 3, 4, 5]
+                                    }
+                                }
+                            ],
+                        },],
+
+                    });
+                    $(".display").css("width", "100%");
+                    // $('#datatable_career tbody').css("width","100%");
+                    // $('#container').css( 'display', 'block' );
+                    table.columns.adjust().draw();
+                }
+            });
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            var table0 = $('#datatable').DataTable({
+                responsive: true,
+                dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                buttons: [{
+                    extend: 'collection',
+                    className: 'btn btn-outline-secondary dropdown-toggle',
+                    text: feather.icons['share'].toSvg({
+                        class: 'font-small-4 mr-50'
+                    }) + 'Export',
+                    buttons: [{
+                        extend: 'csv',
+                        text: feather.icons['file-text'].toSvg({
+                            class: 'font-small-4 mr-50'
+                        }) + 'Csv',
+                        className: 'dropdown-item',
+                        exportOptions: {
+                            modifier: {
+                                page: 'all',
+                            }
+                        }
+                    },
+                        {
+                            extend: 'print',
+                            text: feather.icons['printer'].toSvg({
+                                class: 'font-small-4 mr-50'
+                            }) + 'Print',
+                            className: 'dropdown-item',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5]
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            text: feather.icons['file'].toSvg({
+                                class: 'font-small-4 mr-50'
+                            }) + 'Excel',
+                            className: 'dropdown-item',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5]
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            text: feather.icons['copy'].toSvg({
+                                class: 'font-small-4 mr-50'
+                            }) + 'Copy',
+                            className: 'dropdown-item',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5]
+                            }
+                        }
+                    ],
+                },],
+            });
+
+
+            // Show tab when clicked
+            $('.nav-tabs a').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+
+            // Recalculate column widths when displaying tab - this will active Responsive
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+                var currentTab = $(e.target).attr('id'); // get current tab
+                var split_ab = currentTab;
+                if (split_ab == "venue-tab") {
+                    ajax_render_table("datatable", "1");
+                } else if (split_ab == "event-tab") {
+                    ajax_render_table("datatable1", "2");
+
+                } else if (split_ab == "buy_sell-tab") {
+
+                    ajax_render_table("datatable2", "3");
+
+                } else if (split_ab == "directory-tab") {
+
+                    ajax_render_table("datatable3", "4");
+
+                } else if (split_ab == "concierge-tab") {
+
+                    ajax_render_table("datatable4", "5");
+
+                } else if (split_ab == "influencer-tab") {
+
+                    ajax_render_table("datatable5", "6");
+
+                } else if (split_ab == "job-tab") {
+
+                    ajax_render_table("datatable6", "7");
+
+                } else if (split_ab == "ticket-tab") {
+
+                    ajax_render_table("datatable7", "8");
+
+                } else if (split_ab == "spaces-tab") {
+                    ajax_render_table("datatable8", "9");
+                } else if (split_ab == "attractions-tab") {
+
+                    ajax_render_table("datatable9", "10");
+
+                } else if (split_ab == "book-table-tab") {
+
+                    ajax_render_table("datatable10", "11");
+                } else if (split_ab == "give-away-tab") {
+
+                    ajax_render_table("datatable11", "12");
+                } else if (split_ab == "motors-tab") {
+
+                    ajax_render_table("datatable12", "13");
+                } else if (split_ab == "education-tab") {
+                    ajax_render_table("datatable14", "14");
+                } else if (split_ab == "its-tab") {
+
+                    ajax_render_table("datatable15", "15");
+                } else if (split_ab == "crypto-tab") {
+
+                    ajax_render_table("datatable16", "16");
+                } else if (split_ab == "talent-tab") {
+
+                    ajax_render_table("datatable17", "17");
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).on("click", ".modal-btn", function () {
+            var itemid = $(this).attr('data-id');
+            // console.log(pid);
+            $("input[name='id']").val(itemid);
+        });
+    </script>
+
+    <script>
+        // Add remove loading class on body element depending on Ajax request status
+        $(document).on({
+            ajaxStart: function () {
+                $("body").addClass("loading");
+            },
+            ajaxStop: function () {
+                $("body").removeClass("loading");
+            }
+        });
+    </script>
+
+    <script>
+        <?php if(Session::has('message')): ?>
+        var type = "<?php echo e(Session::get('alert-type', 'info')); ?>";
+        switch (type) {
+            case 'info':
+                toastr.info("<?php echo e(Session::get('message')); ?>", "Information!", {
+                    timeOut: 10000,
+                    progressBar: true
+                });
+                break;
+
+            case 'warning':
+                toastr.warning("<?php echo e(Session::get('message')); ?>", "Warning!", {
+                    timeOut: 10000,
+                    progressBar: true
+                });
+                break;
+
+            case 'success':
+                toastr.success("<?php echo e(Session::get('message')); ?>", "Success!", {
+                    timeOut: 10000,
+                    progressBar: true
+                });
+                break;
+
+            case 'error':
+                toastr.error("<?php echo e(Session::get('message')); ?>", "Failed!", {
+                    timeOut: 10000,
+                    progressBar: true
+                });
+                break;
+        }
+        <?php endif; ?>
+    </script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\partyfinder\resources\views/admin/main-category/index.blade.php ENDPATH**/ ?>
